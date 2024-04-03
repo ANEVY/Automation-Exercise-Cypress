@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ANEVY/Automation-Exercise-Cypress/issues"
   },
-  "homepage": "https://github.com/ANEVY/Automation-Exercise-Cypress#readme"
+  "homepage": "https://github.com/ANEVY/Automation-Exercise-Cypress#readme",
+  "devDependencies": {
+    "cypress": "^13.7.2"
+  }
 }
