@@ -1,0 +1,19 @@
+{
+  "name": "automation-exercise-with-cypress",
+  "version": "1.0.0",
+  "description": "Automation with cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ANEVY/Automation-Exercise-Cypress.git"
+  },
+  "author": "Akombo Neville Akwo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ANEVY/Automation-Exercise-Cypress/issues"
+  },
+  "homepage": "https://github.com/ANEVY/Automation-Exercise-Cypress#readme"
+}
