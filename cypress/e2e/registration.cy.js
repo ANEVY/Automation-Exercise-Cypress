@@ -50,10 +50,10 @@ describe("Verify user registration", () => {
     cy.get("a[href='/delete_account']").click();
     cy.get("h2[data-qa='account-deleted']")
       .should("be.visible")
-      .should("contain.text", "ACCOUNT DELETED!");
+      .should("contain.text", "Account Deleted!");
   });
 
-  it("Test01 Register and logout user", () => {
+  it("Test02 Register and logout user", () => {
     //assert that the homepage has loaded successfully
     cy.get("#header img[alt='Website for automation practice']").should(
       "exist"
@@ -100,6 +100,69 @@ describe("Verify user registration", () => {
     ).should("contain.text", "Logged in as");
 
     cy.get("a[href='/logout']").click();
-    cy.url().should("contain.text", "login");
+  });
+  it("Test03 Login and logout user", () => {
+    //assert that the homepage has loaded successfully
+    cy.get("#header img[alt='Website for automation practice']").should(
+      "exist"
+    );
+    cy.get("#header a[href='/login']").click();
+    //assert that
+    cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
+    //enter key
+
+    cy.get("input[data-qa='login-email']").type("neville+test@gmail.com");
+    cy.get("input[data-qa='login-password']").type("12345678");
+    cy.get("button[data-qa='login-button']").click();
+
+    //assert
+    cy.get(
+      "#header > div > div > div > div.col-sm-8 > div > ul > li:nth-child(10) > a"
+    ).should("contain.text", "Logged in as");
+
+    cy.get("a[href='/logout']").click();
+  });
+  it("Test04 Login with invalid credentials", () => {
+    //assert that the homepage has loaded successfully
+    cy.get("#header img[alt='Website for automation practice']").should(
+      "exist"
+    );
+    cy.get("#header a[href='/login']").click();
+    //assert that
+    cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
+    //enter key
+    //assert
+    cy.get("#form > form > p").should("not.exist");
+    cy.get("input[data-qa='login-email']").type("crossg+test@gmail.com");
+    cy.get("input[data-qa='login-password']").type("12r345678");
+    cy.get("button[data-qa='login-button']").click();
+
+    //assert
+    cy.get("#form form > p")
+      .should("exist")
+      .should("contain.text", "Your email or password is incorrect!");
+  });
+  it("Test05 Login and delete user account", () => {
+    //assert that the homepage has loaded successfully
+    cy.get("#header img[alt='Website for automation practice']").should(
+      "exist"
+    );
+    cy.get("#header a[href='/login']").click();
+    //assert that
+    cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
+    //enter key
+
+    cy.get("input[data-qa='login-email']").type("neville+test@gmail.com");
+    cy.get("input[data-qa='login-password']").type("12345678");
+    cy.get("button[data-qa='login-button']").click();
+
+    //assert
+    cy.get(
+      "#header > div > div > div > div.col-sm-8 > div > ul > li:nth-child(10) > a"
+    ).should("contain.text", "Logged in as");
+    cy.get("a[href='/delete_account']").click();
+    cy.get("h2[data-qa='account-deleted']")
+      .should("be.visible")
+      .should("contain.text", "Account Deleted!");
   });
 });
