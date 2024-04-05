@@ -5,3 +5,8 @@ node_modules
 # Cypress
 cypress/videos
 cypress/screenshots
+
+#DS_Store
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
