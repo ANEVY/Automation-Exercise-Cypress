@@ -1,12 +1,12 @@
 describe("User registration and login", () => {
   beforeEach(() => {
     cy.visit("https://automationexercise.com/");
-  });
-  it("Test01 Register and delete user", () => {
     //assert that the homepage has loaded successfully
     cy.get("#header img[alt='Website for automation practice']").should(
       "exist"
     );
+  });
+  it("Test01 Register and delete user", () => {
     cy.get("#header a[href='/login']").click();
     //assert that
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
@@ -54,10 +54,6 @@ describe("User registration and login", () => {
   });
 
   it("Test02 Register and logout user", () => {
-    //assert that the homepage has loaded successfully
-    cy.get("#header img[alt='Website for automation practice']").should(
-      "exist"
-    );
     cy.get("#header a[href='/login']").click();
     //assert that
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
@@ -102,10 +98,6 @@ describe("User registration and login", () => {
     cy.get("a[href='/logout']").click();
   });
   it("Test03 Register user with existing email", () => {
-    //assert that the homepage has loaded successfully
-    cy.get("#header img[alt='Website for automation practice']").should(
-      "exist"
-    );
     cy.get("#header a[href='/login']").click();
     //assert that
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
@@ -119,10 +111,6 @@ describe("User registration and login", () => {
       .should("contain.text", "Email Address already exist!");
   });
   it("Test04 Login and logout user", () => {
-    //assert that the homepage has loaded successfully
-    cy.get("#header img[alt='Website for automation practice']").should(
-      "exist"
-    );
     cy.get("#header a[href='/login']").click();
     //assert that
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
@@ -140,10 +128,6 @@ describe("User registration and login", () => {
     cy.get("a[href='/logout']").click();
   });
   it("Test04 Login with invalid credentials", () => {
-    //assert that the homepage has loaded successfully
-    cy.get("#header img[alt='Website for automation practice']").should(
-      "exist"
-    );
     cy.get("#header a[href='/login']").click();
     //assert that
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
@@ -160,10 +144,6 @@ describe("User registration and login", () => {
       .should("contain.text", "Your email or password is incorrect!");
   });
   it("Test05 Login and delete user account", () => {
-    //assert that the homepage has loaded successfully
-    cy.get("#header img[alt='Website for automation practice']").should(
-      "exist"
-    );
     cy.get("#header a[href='/login']").click();
     //assert that
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
