@@ -1,4 +1,4 @@
-describe("Verify user registration", () => {
+describe("User registration and login", () => {
   beforeEach(() => {
     cy.visit("https://automationexercise.com/");
   });
@@ -15,7 +15,7 @@ describe("Verify user registration", () => {
     cy.get("input[data-qa='signup-email']").type("neville+test@gmail.com");
     cy.get("button[data-qa='signup-button']").click();
     //assert
-    cy.get("#form .login-form > h2").should(
+    cy.get("#form .login-form > h2.title").should(
       "contain.text",
       "Enter Account Information"
     );
@@ -101,7 +101,24 @@ describe("Verify user registration", () => {
 
     cy.get("a[href='/logout']").click();
   });
-  it("Test03 Login and logout user", () => {
+  it("Test03 Register user with existing email", () => {
+    //assert that the homepage has loaded successfully
+    cy.get("#header img[alt='Website for automation practice']").should(
+      "exist"
+    );
+    cy.get("#header a[href='/login']").click();
+    //assert that
+    cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
+    //enter key
+    cy.get("input[data-qa='signup-name']").type("neville");
+    cy.get("input[data-qa='signup-email']").type("neville+test@gmail.com");
+    cy.get("button[data-qa='signup-button']").click();
+    //assert
+    cy.get("#form form > p")
+      .should("exist")
+      .should("contain.text", "Email Address already exist!");
+  });
+  it("Test04 Login and logout user", () => {
     //assert that the homepage has loaded successfully
     cy.get("#header img[alt='Website for automation practice']").should(
       "exist"
