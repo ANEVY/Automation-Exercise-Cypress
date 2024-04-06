@@ -2,7 +2,7 @@ require("cypress-xpath");
 
 /// <reference types="Cypress" />
 
-describe("Verify that user can view products and add products", () => {
+describe("Test01 Verify that user can view products and add products", () => {
   beforeEach(() => {
     cy.visit("https://automationexercise.com/");
     //assert that the homepage has loaded successfully
@@ -35,5 +35,22 @@ describe("Verify that user can view products and add products", () => {
     cy.xpath("/html/body/section/div/div/div[2]/div[2]/div[2]/div/p[4]").should(
       "exist"
     ); //product condition
+  });
+  it("Test02 Search Product", () => {
+    cy.get("#header a[href='/products']").click();
+    //assert
+    cy.get("div.features_items h2.title")
+      .should("be.visible")
+      .should("contain.text", "All Products");
+    cy.get("#search_product").type("Summer White Top");
+    cy.get("#submit_search").click();
+    cy.url().should("contain", "Summer%20White%20Top");
+    //assert
+    cy.get(".features_items h2.title")
+      .should("exist")
+      .should("contain.text", "Searched Products");
+    cy.get(".product-image-wrapper .productinfo p")
+      .contains("Summer White Top")
+      .should("exist");
   });
 });
