@@ -52,7 +52,7 @@ describe("Test01 Verify that user can view products and add products", () => {
       .contains("Summer White Top")
       .should("exist");
   });
-  it.only("Add Products in Cart", () => {
+  it("Add Products in Cart", () => {
     cy.get(".product-image-wrapper").should("exist");
     //add first product to cart
     cy.get(".product-image-wrapper")
@@ -95,5 +95,24 @@ describe("Test01 Verify that user can view products and add products", () => {
         .should("exist")
         .should("have.text", "1");
     });
+  });
+  it.only("Verify Product quantity in Cart", () => {
+    cy.get(".features_items div.product-image-wrapper")
+      .should("exist")
+      .eq(3)
+      .find("ul li a")
+      .click({ force: true });
+    //assert
+    cy.url().should("include", "product_details");
+    cy.get("#quantity").focus().type("{selectall}").type("4");
+    cy.get(".product-information span button.cart").click();
+    //view cart
+    cy.get("#cartModal a[href='/view_cart']").click();
+    //assert
+    cy.get("table#cart_info_table tbody tr")
+      .eq(0)
+      .find("td.cart_quantity button")
+      .should("exist")
+      .should("have.text", "4");
   });
 });
