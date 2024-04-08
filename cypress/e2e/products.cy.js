@@ -9,9 +9,9 @@ describe("Test01 Verify that user can view products and add products", () => {
     cy.get("#header img[alt='Website for automation practice']").should(
       "exist"
     );
+    cy.get("#header a[href='/products']").click();
   });
   it("Verify All Products and product detail page", () => {
-    cy.get("#header a[href='/products']").click();
     //assert
     cy.get("div.features_items h2.title")
       .should("be.visible")
@@ -37,7 +37,6 @@ describe("Test01 Verify that user can view products and add products", () => {
     ); //product condition
   });
   it("Test02 Search Product", () => {
-    cy.get("#header a[href='/products']").click();
     //assert
     cy.get("div.features_items h2.title")
       .should("be.visible")
@@ -52,5 +51,49 @@ describe("Test01 Verify that user can view products and add products", () => {
     cy.get(".product-image-wrapper .productinfo p")
       .contains("Summer White Top")
       .should("exist");
+  });
+  it.only("Add Products in Cart", () => {
+    cy.get(".product-image-wrapper").should("exist");
+    //add first product to cart
+    cy.get(".product-image-wrapper")
+      .eq(0)
+      .trigger("mouseover")
+      .find(".overlay-content a.add-to-cart")
+      // .should("be.visible")
+      .click({ force: true });
+
+    cy.get("#cartModal .modal-footer button.close-modal").click();
+
+    //add second product to cart
+    cy.get(".product-image-wrapper")
+      .eq(1)
+      .trigger("mouseover")
+      .find(".overlay-content a.add-to-cart")
+      // .should("be.visible")
+      .click({ force: true });
+    //view cart
+    cy.get("#cartModal a[href='/view_cart']").click();
+    cy.get("table#cart_info_table tbody tr")
+      .should("be.visible")
+      .should("have.length", 2);
+    cy.get("table#cart_info_table tbody tr").each(($el, index, $list) => {
+      //assert prices, quantity and total price
+      if (index == 0) {
+        cy.wrap($el).find("td.cart_price p").should("have.text", "Rs. 500");
+        cy.wrap($el)
+          .find("td.cart_total p.cart_total_price")
+          .should("have.text", "Rs. 500");
+      }
+      if (index == 1) {
+        cy.wrap($el).find("td.cart_price p").should("have.text", "Rs. 400");
+        cy.wrap($el)
+          .find("td.cart_total p.cart_total_price")
+          .should("have.text", "Rs. 400");
+      }
+      cy.wrap($el)
+        .find("td.cart_quantity button")
+        .should("exist")
+        .should("have.text", "1");
+    });
   });
 });
