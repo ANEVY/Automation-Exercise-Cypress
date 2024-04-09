@@ -96,7 +96,7 @@ describe("Test01 Verify that user can view products and add products", () => {
         .should("have.text", "1");
     });
   });
-  it.only("Verify Product quantity in Cart", () => {
+  it("Verify Product quantity in Cart", () => {
     cy.get(".features_items div.product-image-wrapper")
       .should("exist")
       .eq(3)
@@ -114,5 +114,68 @@ describe("Test01 Verify that user can view products and add products", () => {
       .find("td.cart_quantity button")
       .should("exist")
       .should("have.text", "4");
+  });
+  it.only("Place Order: Register while Checkout", () => {
+    //add for products to cart
+    for (let index = 0; index < 5; index++) {
+      cy.log(``);
+      //add second product to cart
+      cy.get(".product-image-wrapper")
+        .eq(index)
+        .trigger("mouseover")
+        .find(".overlay-content a.add-to-cart")
+        // .should("be.visible")
+        .click({ force: true });
+      cy.get("#cartModal .modal-footer button.close-modal").click();
+    }
+    //go to cart page
+    cy.get("#header a[href='/view_cart']").click();
+    cy.get("#do_action a.check_out").click({ force: true });
+    cy.get("#checkoutModal a[href='/login']").click();
+    //fill form inputs
+    cy.get("input[data-qa='signup-name']").type("papinevy");
+    cy.get("input[data-qa='signup-email']").type("papinevy@gmail.com");
+    cy.get("button[data-qa='signup-button']").click();
+    // create account
+    //assert
+    cy.get("#form .login-form > h2.title").should(
+      "contain.text",
+      "Enter Account Information"
+    );
+    //enter details
+    cy.get("#id_gender1").check();
+    cy.get("input[data-qa='password']").type("12345678");
+    cy.get("select[data-qa='days']").select("12");
+    cy.get("select[data-qa='months']").select("6");
+    cy.get("select[data-qa='years']").select("1998");
+    cy.get("#newsletter").click();
+    cy.get("#optin").click();
+    cy.get("input[data-qa='first_name']").type("John");
+    cy.get("input[data-qa='last_name']").type("Haris");
+    cy.get("input[data-qa='company']").type("Quality Assurance LTD");
+    cy.get("input[data-qa='address']").type("460 Commerce Parkway Fortville");
+    cy.get("select[data-qa='country']").select("Canada");
+    cy.get("input[data-qa='state']").type("Indiana");
+    cy.get("input[data-qa='city']").type("Fortville");
+    cy.get("input[data-qa='zipcode']").type("46040");
+    cy.get("input[data-qa='mobile_number']").type("897-040-1859");
+    cy.get("button[data-qa='create-account']").click();
+    //assert
+    cy.get("h2[data-qa='account-created']")
+      .should("be.visible")
+      .should("contain.text", "Account Created!");
+    cy.get("a[data-qa='continue-button']").click();
+
+    //assert
+    cy.get(
+      "#header > div > div > div > div.col-sm-8 > div > ul > li:nth-child(10) > a"
+    ).should("contain.text", "Logged in as");
+
+    //go to cart page
+    cy.get("#header a[href='/view_cart']").click();
+    cy.get("#do_action a.check_out").click({ force: true });
+
+    //verif
+    // cy.get("#address_delivery ")
   });
 });
