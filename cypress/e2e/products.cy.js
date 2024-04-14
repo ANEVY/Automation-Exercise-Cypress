@@ -176,6 +176,9 @@ describe("Test01 Verify that user can view products and add products", () => {
     cy.get("#do_action a.check_out").click({ force: true });
 
     //verif
-    // cy.get("#address_delivery ")
+    cy.get("#address_delivery .address_firstname.address_lastname").should(
+      "have.text",
+      `Mr. John Haris`
+    );
   });
 });
