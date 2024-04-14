@@ -1,8 +1,13 @@
-class Registration {
+class RegistrationAndLogin {
   signUp({ name, email }) {
     cy.get("input[data-qa='signup-name']").type(name);
     cy.get("input[data-qa='signup-email']").type(email);
     cy.get("button[data-qa='signup-button']").click();
+  }
+  logIn({ password, email }) {
+    cy.get("input[data-qa='login-email']").type(email);
+    cy.get("input[data-qa='login-password']").type(password);
+    cy.get("button[data-qa='login-button']").click();
   }
   createAccount({
     password,
@@ -40,6 +45,9 @@ class Registration {
   getSignUpFormHeader() {
     return cy.get("#form .signup-form h2");
   }
+  getLoginFormHeader() {
+    return cy.get("#form .login-form h2");
+  }
   getAccountInfoHeader() {
     return cy.get("#form .login-form > h2.title");
   }
@@ -53,4 +61,4 @@ class Registration {
     return cy.get("#form form > p");
   }
 }
-export default Registration;
+export default RegistrationAndLogin;

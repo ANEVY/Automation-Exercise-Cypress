@@ -2,9 +2,9 @@
 
 import Header from "../common/header";
 import DeleteAccount from "../pages/delete-account";
-import Registration from "../pages/registration";
+import RegistrationAndLogin from "../pages/registration-login";
 
-const registration = new Registration();
+const registrationAndLogin = new RegistrationAndLogin();
 const header = new Header();
 const deleteAccount = new DeleteAccount();
 describe("User registration and login", () => {
@@ -15,14 +15,17 @@ describe("User registration and login", () => {
   });
   it("Test01 Register and delete user", () => {
     header.getLoginLink().click();
-    //assert that we are on the registration page
-    registration
+    //assert that we are on the login page
+    registrationAndLogin
       .getSignUpFormHeader()
       .should("contain.text", "New User Signup!");
     // signup
-    registration.signUp({ name: "neville", email: "neville+test@gmail.com" });
+    registrationAndLogin.signUp({
+      name: "neville",
+      email: "neville+test@gmail.com",
+    });
     //assert
-    registration
+    registrationAndLogin
       .getAccountInfoHeader()
       .should("contain.text", "Enter Account Information");
     //create account
@@ -42,11 +45,11 @@ describe("User registration and login", () => {
       mobileNumber: "897-040-1859",
     });
     //assert that account was created
-    registration
+    registrationAndLogin
       .getAccountCreatedHeader()
       .should("be.visible")
       .should("contain.text", "Account Created!");
-    registration.getContinueButton().click();
+    registrationAndLogin.getContinueButton().click();
 
     //assert that user is logged in
     header.getProfileLink().should("contain.text", "Logged in as");
@@ -59,20 +62,23 @@ describe("User registration and login", () => {
       .should("contain.text", "Account Deleted!");
   });
 
-  it.only("Test02 Register and logout user", () => {
+  it("Test02 Register and logout user", () => {
     header.getLoginLink().click();
-    //assert that registration page was opened successfully
-    registration
+    //assert that login page was opened successfully
+    registrationAndLogin
       .getSignUpFormHeader()
       .should("contain.text", "New User Signup!");
     //Sign up
-    registration.signUp({ name: "neville", email: "neville+test@gmail.com" });
+    registrationAndLogin.signUp({
+      name: "neville",
+      email: "neville+test@gmail.com",
+    });
     //assert that account was created
-    registration
+    registrationAndLogin
       .getAccountInfoHeader()
       .should("contain.text", "Enter Account Information");
     //create account
-    registration.createAccount({
+    registrationAndLogin.createAccount({
       password: "12345678",
       days: "12",
       month: "6",
@@ -88,7 +94,7 @@ describe("User registration and login", () => {
       mobileNumber: "897-040-1859",
     });
     //assert that account was created
-    registration
+    registrationAndLogin
       .getAccountCreatedHeader()
       .should("be.visible")
       .should("contain.text", "Account Created!");
@@ -101,39 +107,43 @@ describe("User registration and login", () => {
   });
   it("Test03 Register user with existing email", () => {
     header.getLoginLink().click();
-    //assert that registration page was opened successfully
+    //assert that login page was opened successfully
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
     //Sign up
-    registration.signUp({ name: "neville", email: "neville+test@gmail.com" });
+    registrationAndLogin.signUp({
+      name: "neville",
+      email: "neville+test@gmail.com",
+    });
     //assert that user cannot register with existing email
-    registration
+    registrationAndLogin
       .getErrorElement()
       .should("exist")
       .should("contain.text", "Email Address already exist!");
   });
-  it("Test04 Login and logout user", () => {
-    cy.get("#header a[href='/login']").click();
-    //assert that
-    cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
-    //enter key
+  it.only("Test04 Login and logout user", () => {
+    header.getLoginLink().click();
+    //assert that login page was opened successfully
+    registrationAndLogin
+      .getLoginFormHeader()
+      .should("contain.text", "Login to your account");
+    //Login
+    registrationAndLogin.logIn({
+      password: "12345678",
+      email: "neville+test@gmail.com",
+    });
 
-    cy.get("input[data-qa='login-email']").type("neville+test@gmail.com");
-    cy.get("input[data-qa='login-password']").type("12345678");
-    cy.get("button[data-qa='login-button']").click();
-
-    //assert
-    cy.get(
-      "#header > div > div > div > div.col-sm-8 > div > ul > li:nth-child(10) > a"
-    ).should("contain.text", "Logged in as");
-
-    cy.get("a[href='/logout']").click();
+    //assert that user is logged in
+    header.getProfileLink().should("contain.text", "Logged in as");
+    //logout user
+    header.getLogoutLink().click();
   });
   it("Test04 Login with invalid credentials", () => {
-    cy.get("#header a[href='/login']").click();
-    //assert that
-    cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
-    //enter key
-    //assert
+    header.getLoginLink().click();
+    //assert that login page was opened successfully
+    registrationAndLogin
+      .getLoginFormHeader()
+      .should("contain.text", "Login to your account");
+    //Login
     cy.get("#form > form > p").should("not.exist");
     cy.get("input[data-qa='login-email']").type("crossg+test@gmail.com");
     cy.get("input[data-qa='login-password']").type("12r345678");
