@@ -49,5 +49,8 @@ class Registration {
   getContinueButton() {
     return cy.get("a[data-qa='continue-button']");
   }
+  getErrorElement() {
+    return cy.get("#form form > p");
+  }
 }
 export default Registration;

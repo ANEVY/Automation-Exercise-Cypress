@@ -100,15 +100,14 @@ describe("User registration and login", () => {
     header.getLogoutLink().click();
   });
   it("Test03 Register user with existing email", () => {
-    cy.get("#header a[href='/login']").click();
-    //assert that
+    header.getLoginLink().click();
+    //assert that registration page was opened successfully
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
-    //enter key
-    cy.get("input[data-qa='signup-name']").type("neville");
-    cy.get("input[data-qa='signup-email']").type("neville+test@gmail.com");
-    cy.get("button[data-qa='signup-button']").click();
-    //assert
-    cy.get("#form form > p")
+    //Sign up
+    registration.signUp({ name: "neville", email: "neville+test@gmail.com" });
+    //assert that user cannot register with existing email
+    registration
+      .getErrorElement()
       .should("exist")
       .should("contain.text", "Email Address already exist!");
   });
