@@ -1,18 +1,18 @@
 /// <reference types="cypress"/>
 
+import Header from "../common/header";
 import Registration from "../pages/registration";
 
 const registration = new Registration();
+const header = new Header();
 describe("User registration and login", () => {
   beforeEach(() => {
     cy.visit("https://automationexercise.com/");
     //assert that the homepage has loaded successfully
-    cy.get("#header img[alt='Website for automation practice']").should(
-      "exist"
-    );
+    header.getLogoLink().should("exist");
   });
   it.only("Test01 Register and delete user", () => {
-    cy.get("#header a[href='/login']").click();
+    header.getLoginLink().click();
     //assert that we are on the registration page
     registration
       .getSignUpFormHeader()
@@ -46,11 +46,9 @@ describe("User registration and login", () => {
       .should("contain.text", "Account Created!");
     registration.getContinueButton().click();
 
-    //assert
-    cy.get(
-      "#header > div > div > div > div.col-sm-8 > div > ul > li:nth-child(10) > a"
-    ).should("contain.text", "Logged in as");
-    cy.get("a[href='/delete_account']").click();
+    //assert that user is logged in
+    header.getProfileLink().should("contain.text", "Logged in as");
+    header.getDeleteAccountLink().click();
     cy.get("h2[data-qa='account-deleted']")
       .should("be.visible")
       .should("contain.text", "Account Deleted!");
