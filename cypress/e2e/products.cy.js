@@ -177,8 +177,11 @@ describe("Test01 Verify that user can view products and add products", () => {
 
     //verif
     cy.get("#address_delivery .address_firstname.address_lastname").should(
-      "have.text",
+      "contain.text",
       `Mr. John Haris`
     );
+    cy.get(
+      "#address_delivery .address_city.address_state_name.address_postcode"
+    ).should("contain.text", `Fortville Indiana 46040`);
   });
 });
