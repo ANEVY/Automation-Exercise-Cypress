@@ -37,5 +37,14 @@ class Registration {
     cy.get("input[data-qa='mobile_number']").type(mobileNumber);
     cy.get("button[data-qa='create-account']").click();
   }
+  getSignUpFormHeader() {
+    return cy.get("#form .signup-form h2");
+  }
+  getAccountInfoHeader() {
+    return cy.get("#form .login-form > h2.title");
+  }
+  getAccountCreatedHeader() {
+    return cy.get("h2[data-qa='account-created']");
+  }
 }
 export default Registration;

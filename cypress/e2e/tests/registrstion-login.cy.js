@@ -1,3 +1,8 @@
+/// <reference types="cypress"/>
+
+import Registration from "../pages/registration";
+
+const registration = new Registration();
 describe("User registration and login", () => {
   beforeEach(() => {
     cy.visit("https://automationexercise.com/");
