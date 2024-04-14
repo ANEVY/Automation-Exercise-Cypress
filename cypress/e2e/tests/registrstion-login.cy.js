@@ -137,24 +137,27 @@ describe("User registration and login", () => {
     //logout user
     header.getLogoutLink().click();
   });
-  it("Test04 Login with invalid credentials", () => {
+  it("Test05 Login with invalid credentials", () => {
     header.getLoginLink().click();
     //assert that login page was opened successfully
     registrationAndLogin
       .getLoginFormHeader()
       .should("contain.text", "Login to your account");
+    //assert that error element does not exist
+    registrationAndLogin.getErrorElement().should("not.exist");
     //Login
-    cy.get("#form > form > p").should("not.exist");
-    cy.get("input[data-qa='login-email']").type("crossg+test@gmail.com");
-    cy.get("input[data-qa='login-password']").type("12r345678");
-    cy.get("button[data-qa='login-button']").click();
+    registrationAndLogin.logIn({
+      password: "crossg+test@gmail.com",
+      password: "crossg+test@gmail.com",
+    });
 
-    //assert
-    cy.get("#form form > p")
+    //assert that user can not sign in with incorrect credentials
+    registrationAndLogin
+      .getErrorElement()
       .should("exist")
       .should("contain.text", "Your email or password is incorrect!");
   });
-  it("Test05 Login and delete user account", () => {
+  it("Test06 Login and delete user account", () => {
     cy.get("#header a[href='/login']").click();
     //assert that
     cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
