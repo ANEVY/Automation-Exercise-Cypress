@@ -1,10 +1,12 @@
 /// <reference types="cypress"/>
 
 import Header from "../common/header";
+import DeleteAccount from "../pages/delete-account";
 import Registration from "../pages/registration";
 
 const registration = new Registration();
 const header = new Header();
+const deleteAccount = new DeleteAccount();
 describe("User registration and login", () => {
   beforeEach(() => {
     cy.visit("https://automationexercise.com/");
@@ -49,7 +51,8 @@ describe("User registration and login", () => {
     //assert that user is logged in
     header.getProfileLink().should("contain.text", "Logged in as");
     header.getDeleteAccountLink().click();
-    cy.get("h2[data-qa='account-deleted']")
+    deleteAccount
+      .getHeader()
       .should("be.visible")
       .should("contain.text", "Account Deleted!");
   });
