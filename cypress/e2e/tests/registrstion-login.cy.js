@@ -120,7 +120,7 @@ describe("User registration and login", () => {
       .should("exist")
       .should("contain.text", "Email Address already exist!");
   });
-  it.only("Test04 Login and logout user", () => {
+  it("Test04 Login and logout user", () => {
     header.getLoginLink().click();
     //assert that login page was opened successfully
     registrationAndLogin
@@ -137,7 +137,7 @@ describe("User registration and login", () => {
     //logout user
     header.getLogoutLink().click();
   });
-  it("Test05 Login with invalid credentials", () => {
+  it.only("Test05 Login with invalid credentials", () => {
     header.getLoginLink().click();
     //assert that login page was opened successfully
     registrationAndLogin
@@ -147,8 +147,8 @@ describe("User registration and login", () => {
     registrationAndLogin.getErrorElement().should("not.exist");
     //Login
     registrationAndLogin.logIn({
-      password: "crossg+test@gmail.com",
-      password: "crossg+test@gmail.com",
+      email: "crossg+test@gmail.com",
+      password: "233233332",
     });
 
     //assert that user can not sign in with incorrect credentials
