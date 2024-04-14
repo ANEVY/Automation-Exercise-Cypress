@@ -137,7 +137,7 @@ describe("User registration and login", () => {
     //logout user
     header.getLogoutLink().click();
   });
-  it.only("Test05 Login with invalid credentials", () => {
+  it("Test05 Login with invalid credentials", () => {
     header.getLoginLink().click();
     //assert that login page was opened successfully
     registrationAndLogin
@@ -157,22 +157,25 @@ describe("User registration and login", () => {
       .should("exist")
       .should("contain.text", "Your email or password is incorrect!");
   });
-  it("Test06 Login and delete user account", () => {
-    cy.get("#header a[href='/login']").click();
-    //assert that
-    cy.get("#form .signup-form h2").should("contain.text", "New User Signup!");
-    //enter key
+  it.only("Test06 Login and delete user account", () => {
+    header.getLoginLink().click();
+    //assert that login page was opened successfully
+    registrationAndLogin
+      .getLoginFormHeader()
+      .should("contain.text", "Login to your account");
+    //Login
+    registrationAndLogin.logIn({
+      password: "12345678",
+      email: "neville+test@gmail.com",
+    });
 
-    cy.get("input[data-qa='login-email']").type("neville+test@gmail.com");
-    cy.get("input[data-qa='login-password']").type("12345678");
-    cy.get("button[data-qa='login-button']").click();
-
-    //assert
-    cy.get(
-      "#header > div > div > div > div.col-sm-8 > div > ul > li:nth-child(10) > a"
-    ).should("contain.text", "Logged in as");
-    cy.get("a[href='/delete_account']").click();
-    cy.get("h2[data-qa='account-deleted']")
+    //assert that user is logged in
+    header.getProfileLink().should("contain.text", "Logged in as");
+    //delete account
+    header.getDeleteAccountLink().click();
+    //assert that account was deleted successfully
+    deleteAccount
+      .getHeader()
       .should("be.visible")
       .should("contain.text", "Account Deleted!");
   });
